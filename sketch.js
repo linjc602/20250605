@@ -109,11 +109,13 @@ function draw() {
     strokeWeight(4);
     fill("#ee9b00");
     rect(btnX, btnY, btnW, btnH, 20); // 圓角20
+
+    // 文字置中在按鈕內
     noStroke();
     fill(0);
     textSize(28);
     textAlign(CENTER, CENTER);
-    text("再玩一次", width / 2, btnY + btnH / 2);
+    text("再玩一次", btnX + btnW / 2, btnY + btnH / 2);
 
     return;
   }
