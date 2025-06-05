@@ -210,7 +210,11 @@ function draw() {
   }
 
   // 顯示分數在左上角
-  fill(0);
+  if (timeLeft <= 10) {
+    fill("#d62828");
+  } else {
+    fill("#0077b6");
+  }
   noStroke();
   textSize(32);
   textAlign(LEFT, TOP);
