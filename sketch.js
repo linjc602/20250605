@@ -30,24 +30,27 @@ function setup() {
 function draw() {
   image(video, 0, 0);
 
-  // Ensure at least one hand is detected
+  // 確保至少偵測到一隻手
   if (hands.length > 0) {
     for (let hand of hands) {
       if (hand.confidence > 0.1) {
-        // Loop through keypoints and draw circles
-        for (let i = 0; i < hand.keypoints.length; i++) {
-          let keypoint = hand.keypoints[i];
+        // 取得拇指與食指的關鍵點
+        let thumbTip = hand.keypoints[4];
+        let indexTip = hand.keypoints[8];
 
-          // Color-code based on left or right hand
-          if (hand.handedness == "Left") {
-            fill(255, 0, 255);
-          } else {
-            fill(255, 255, 0);
-          }
+        // 畫出兩點
+        fill(255, 0, 0);
+        noStroke();
+        circle(thumbTip.x, thumbTip.y, 20);
 
-          noStroke();
-          circle(keypoint.x, keypoint.y, 16);
-        }
+        fill(0, 255, 0);
+        noStroke();
+        circle(indexTip.x, indexTip.y, 20);
+
+        // 用線連接兩點
+        stroke(0, 255, 255);
+        strokeWeight(4);
+        line(thumbTip.x, thumbTip.y, indexTip.x, indexTip.y);
       }
     }
   }
