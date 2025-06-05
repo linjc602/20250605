@@ -100,14 +100,14 @@ function draw() {
     textSize(32);
     text("分數：" + score, width / 2, height / 2);
 
-    // 再玩一次按鈕
+    // 再玩一次按鈕（有邊框設計）
     let btnW = 180;
     let btnH = 50;
     let btnX = width / 2 - btnW / 2;
     let btnY = height / 2 + 40;
-    fill(255);
-    stroke(0);
-    strokeWeight(2);
+    stroke("#fcbf49");
+    strokeWeight(4);
+    fill("#ee9b00");
     rect(btnX, btnY, btnW, btnH, 20); // 圓角20
     noStroke();
     fill(0);
