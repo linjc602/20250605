@@ -205,7 +205,7 @@ function draw() {
   textAlign(LEFT, TOP);
   text("分數：" + score, 10, 10);
 
-  // 顯示時間在分數下方（剩10秒內才變紅）
+  // 顯示時間在分數下方（剩10秒內才變紅，分數顏色不變）
   if (timeLeft <= 10) {
     fill("#d62828");
   } else {
