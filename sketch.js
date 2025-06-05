@@ -7,7 +7,7 @@ let hands = [];
 let stars = [];
 let grabbedStar = null;
 let score = 0;
-let timeLeft = 30; // 秒數，改成30秒
+let timeLeft = 20; // 秒數，改成20秒
 let gameOver = false;
 let lastSecond = 0;
 let finishedEarly = false; // 新增：是否提前完成
@@ -28,7 +28,7 @@ function mousePressed() {
       stars.push({ x, y, r, grabbed: false, collected: false });
     }
     score = 0;
-    timeLeft = 15; // 重設為15秒
+    timeLeft = 20; // 重設為20秒
     gameOver = false;
     grabbedStar = null;
     lastSecond = millis();
