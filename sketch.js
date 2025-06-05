@@ -6,7 +6,10 @@ let handPose;
 let hands = [];
 let stars = [];
 let grabbedStar = null;
-let score = 0; // 新增分數變數
+let score = 0;
+let timeLeft = 50; // 秒數
+let gameOver = false;
+let lastSecond = 0;
 
 function preload() {
   // Initialize HandPose model with flipped video input
@@ -14,7 +17,23 @@ function preload() {
 }
 
 function mousePressed() {
-  console.log(hands);
+  if (gameOver) {
+    // 重設遊戲
+    stars = [];
+    for (let i = 0; i < 8; i++) {
+      let r = random(15, 35);
+      let x = random(r, width - r);
+      let y = random(r, height - r);
+      stars.push({ x, y, r, grabbed: false, collected: false });
+    }
+    score = 0;
+    timeLeft = 50;
+    gameOver = false;
+    grabbedStar = null;
+    lastSecond = millis();
+  } else {
+    console.log(hands);
+  }
 }
 
 function gotHands(results) {
@@ -31,11 +50,12 @@ function setup() {
     let r = random(15, 35);
     let x = random(r, width - r);
     let y = random(r, height - r);
-    stars.push({ x, y, r, grabbed: false, collected: false }); // 新增 collected 屬性
+    stars.push({ x, y, r, grabbed: false, collected: false });
   }
 
   // Start detecting hands
   handPose.detectStart(video, gotHands);
+  lastSecond = millis();
 }
 
 // 畫星星的函式
@@ -55,6 +75,21 @@ function drawStar(x, y, radius) {
 }
 
 function draw() {
+  background(255);
+
+  if (gameOver) {
+    // 結算畫面
+    fill(0);
+    textSize(40);
+    textAlign(CENTER, CENTER);
+    text("時間到！", width / 2, height / 2 - 60);
+    textSize(32);
+    text("分數：" + score, width / 2, height / 2);
+    textSize(24);
+    text("按下滑鼠再玩一次", width / 2, height / 2 + 60);
+    return;
+  }
+
   image(video, 0, 0);
 
   // 畫桶子（螢幕正中間）
@@ -153,4 +188,17 @@ function draw() {
   textSize(32);
   textAlign(LEFT, TOP);
   text("分數：" + score, 10, 10);
+
+  // 顯示時間在分數下方
+  textSize(28);
+  text("剩餘時間：" + timeLeft + " 秒", 10, 50);
+
+  // 倒數計時
+  if (millis() - lastSecond >= 1000) {
+    timeLeft--;
+    lastSecond = millis();
+    if (timeLeft <= 0) {
+      gameOver = true;
+    }
+  }
 }
