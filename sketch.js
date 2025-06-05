@@ -89,6 +89,8 @@ function draw() {
   }
 
   if (gameOver) {
+    background("#caf0f8"); // 結束遊戲頁面背景顏色
+
     fill(0);
     textSize(40);
     textAlign(CENTER, CENTER);
@@ -100,11 +102,21 @@ function draw() {
     textSize(32);
     text("分數：" + score, width / 2, height / 2);
 
-    // 只顯示「再玩一次」文字，無邊框按鈕
+    // 再玩一次按鈕（有邊框和底色，文字置中）
+    let btnW = 180;
+    let btnH = 50;
+    let btnX = width / 2 - btnW / 2;
+    let btnY = height / 2 + 40;
+    stroke("#00b4d8");
+    strokeWeight(4);
+    fill("#90e0ef");
+    rect(btnX, btnY, btnW, btnH, 20); // 圓角20
+
+    noStroke();
     fill(0);
     textSize(28);
     textAlign(CENTER, CENTER);
-    text("再玩一次", width / 2, height / 2 + 65);
+    text("再玩一次", btnX + btnW / 2, btnY + btnH / 2);
 
     return;
   }
