@@ -111,16 +111,11 @@ function draw() {
     textSize(32);
     text("分數：" + score, width / 2, height / 2);
 
-    // 設定再玩一次按鈕區域
+    // 設定再玩一次按鈕區域（不再畫出按鈕底色）
     let btnW = 180;
     let btnH = 50;
     let btnX = width / 2 - btnW / 2;
     let btnY = height / 2 + 40;
-
-    // 測試用：畫出按鈕區域
-    noStroke();
-    fill(255, 0, 0, 50);
-    rect(btnX, btnY, btnW, btnH, 20);
 
     fill(0);
     textSize(28);
