@@ -102,11 +102,11 @@ function draw() {
     textSize(32);
     text("分數：" + score, width / 2, height / 2);
 
-
+    // 只顯示「再玩一次」文字，無邊框底色
     fill(0);
     textSize(28);
     textAlign(CENTER, CENTER);
-    text("再玩一次", btnX + btnW / 2, btnY + btnH / 2);
+    text("再玩一次", width / 2, height / 2 + 65);
 
     return;
   }
