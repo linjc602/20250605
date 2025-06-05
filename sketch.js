@@ -7,9 +7,10 @@ let hands = [];
 let stars = [];
 let grabbedStar = null;
 let score = 0;
-let timeLeft = 50; // 秒數
+let timeLeft = 30; // 秒數，改成30秒
 let gameOver = false;
 let lastSecond = 0;
+let finishedEarly = false; // 新增：是否提前完成
 
 function preload() {
   // Initialize HandPose model with flipped video input
@@ -27,10 +28,11 @@ function mousePressed() {
       stars.push({ x, y, r, grabbed: false, collected: false });
     }
     score = 0;
-    timeLeft = 50;
+    timeLeft = 30; // 重設為30秒
     gameOver = false;
     grabbedStar = null;
     lastSecond = millis();
+    finishedEarly = false; // 重設
   } else {
     console.log(hands);
   }
@@ -77,12 +79,24 @@ function drawStar(x, y, radius) {
 function draw() {
   background(255);
 
+  // 計算分數
+  score = stars.filter(star => star.collected).length;
+
+  // 提前完成判斷
+  if (!gameOver && score === 8) {
+    gameOver = true;
+    finishedEarly = true;
+  }
+
   if (gameOver) {
-    // 結算畫面
     fill(0);
     textSize(40);
     textAlign(CENTER, CENTER);
-    text("時間到！", width / 2, height / 2 - 60);
+    if (finishedEarly) {
+      text("時間到了！你能更快嗎？", width / 2, height / 2 - 60);
+    } else {
+      text("差一點就完成了！再挑戰一次看看！", width / 2, height / 2 - 60);
+    }
     textSize(32);
     text("分數：" + score, width / 2, height / 2);
     textSize(24);
@@ -179,9 +193,6 @@ function draw() {
     grabbedStar = null;
   }
 
-  // 計算分數
-  score = stars.filter(star => star.collected).length;
-
   // 顯示分數在左上角
   fill(0);
   noStroke();
@@ -199,6 +210,7 @@ function draw() {
     lastSecond = millis();
     if (timeLeft <= 0) {
       gameOver = true;
+      finishedEarly = false;
     }
   }
 }
