@@ -6,6 +6,7 @@ let handPose;
 let hands = [];
 let stars = [];
 let grabbedStar = null;
+let score = 0; // 新增分數變數
 
 function preload() {
   // Initialize HandPose model with flipped video input
@@ -30,7 +31,7 @@ function setup() {
     let r = random(15, 35);
     let x = random(r, width - r);
     let y = random(r, height - r);
-    stars.push({ x, y, r, grabbed: false });
+    stars.push({ x, y, r, grabbed: false, collected: false }); // 新增 collected 屬性
   }
 
   // Start detecting hands
@@ -59,16 +60,22 @@ function draw() {
   // 畫桶子（螢幕正中間）
   fill(200, 150, 50);
   rectMode(CENTER);
-  rect(width / 2, height / 2 + 80, 100, 120, 30);
+  let bucketX = width / 2;
+  let bucketY = height / 2 + 80;
+  let bucketW = 100;
+  let bucketH = 120;
+  rect(bucketX, bucketY, bucketW, bucketH, 30);
 
   // 畫星星
   for (let star of stars) {
-    push();
-    fill(star.grabbed ? color(255, 200, 0) : color(255, 255, 0));
-    stroke(255, 180, 0);
-    strokeWeight(2);
-    drawStar(star.x, star.y, star.r);
-    pop();
+    if (!star.collected) {
+      push();
+      fill(star.grabbed ? color(255, 200, 0) : color(255, 255, 0));
+      stroke(255, 180, 0);
+      strokeWeight(2);
+      drawStar(star.x, star.y, star.r);
+      pop();
+    }
   }
 
   // 手部偵測
@@ -99,6 +106,7 @@ function draw() {
         // 檢查是否抓到星星
         if (!grabbedStar) {
           for (let star of stars) {
+            if (star.collected) continue; // 已收集的不再抓取
             let d1 = dist(thumbTip.x, thumbTip.y, star.x, star.y);
             let d2 = dist(indexTip.x, indexTip.y, star.x, star.y);
             if (d1 < star.r + 10 || d2 < star.r + 10) {
@@ -110,9 +118,21 @@ function draw() {
         }
 
         // 若有抓到星星，讓星星跟著移動
-        if (grabbedStar) {
+        if (grabbedStar && !grabbedStar.collected) {
           grabbedStar.x = midX;
           grabbedStar.y = midY;
+
+          // 判斷是否進桶子
+          if (
+            grabbedStar.x > bucketX - bucketW / 2 &&
+            grabbedStar.x < bucketX + bucketW / 2 &&
+            grabbedStar.y > bucketY - bucketH / 2 &&
+            grabbedStar.y < bucketY + bucketH / 2
+          ) {
+            grabbedStar.collected = true;
+            grabbedStar.grabbed = false;
+            grabbedStar = null;
+          }
         }
       }
     }
@@ -123,4 +143,14 @@ function draw() {
     grabbedStar.grabbed = false;
     grabbedStar = null;
   }
+
+  // 計算分數
+  score = stars.filter(star => star.collected).length;
+
+  // 顯示分數在左上角
+  fill(0);
+  noStroke();
+  textSize(32);
+  textAlign(LEFT, TOP);
+  text("分數：" + score, 10, 10);
 }
