@@ -28,7 +28,7 @@ function mousePressed() {
       stars.push({ x, y, r, grabbed: false, collected: false });
     }
     score = 0;
-    timeLeft = 30; // 重設為30秒
+    timeLeft = 15; // 重設為15秒
     gameOver = false;
     grabbedStar = null;
     lastSecond = millis();
@@ -99,8 +99,22 @@ function draw() {
     }
     textSize(32);
     text("分數：" + score, width / 2, height / 2);
-    textSize(24);
-    text("按下滑鼠再玩一次", width / 2, height / 2 + 60);
+
+    // 再玩一次按鈕
+    let btnW = 180;
+    let btnH = 50;
+    let btnX = width / 2 - btnW / 2;
+    let btnY = height / 2 + 40;
+    fill(255);
+    stroke(0);
+    strokeWeight(2);
+    rect(btnX, btnY, btnW, btnH, 20); // 圓角20
+    noStroke();
+    fill(0);
+    textSize(28);
+    textAlign(CENTER, CENTER);
+    text("再玩一次", width / 2, btnY + btnH / 2);
+
     return;
   }
 
