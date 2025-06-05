@@ -116,12 +116,17 @@ function draw() {
     let btnH = 50;
     let btnX = width / 2 - btnW / 2;
     let btnY = height / 2 + 40;
+
+    // 測試用：畫出按鈕區域
+    noStroke();
+    fill(255, 0, 0, 50);
+    rect(btnX, btnY, btnW, btnH, 20);
+
     fill(0);
     textSize(28);
     textAlign(CENTER, CENTER);
     text("再玩一次", width / 2, btnY + btnH / 2);
 
-    // 記錄按鈕區域到全域變數
     window.restartBtn = { x: btnX, y: btnY, w: btnW, h: btnH };
 
     return;
