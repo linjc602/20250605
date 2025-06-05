@@ -100,22 +100,11 @@ function draw() {
     textSize(32);
     text("分數：" + score, width / 2, height / 2);
 
-    // 再玩一次按鈕（有邊框設計）
-    let btnW = 180;
-    let btnH = 50;
-    let btnX = width / 2 - btnW / 2;
-    let btnY = height / 2 + 40;
-    stroke("#fcbf49");
-    strokeWeight(4);
-    fill("#ee9b00");
-    rect(btnX, btnY, btnW, btnH, 20); // 圓角20
-
-    // 文字置中在按鈕內
-    noStroke();
+    // 只顯示「再玩一次」文字，無邊框按鈕
     fill(0);
     textSize(28);
     textAlign(CENTER, CENTER);
-    text("再玩一次", btnX + btnW / 2, btnY + btnH / 2);
+    text("再玩一次", width / 2, height / 2 + 65);
 
     return;
   }
@@ -209,18 +198,19 @@ function draw() {
     grabbedStar = null;
   }
 
-  // 顯示分數在左上角
-  if (timeLeft <= 10) {
-    fill("#d62828");
-  } else {
-    fill("#0077b6");
-  }
+  // 顯示分數在左上角（永遠 #0077b6）
+  fill("#0077b6");
   noStroke();
   textSize(32);
   textAlign(LEFT, TOP);
   text("分數：" + score, 10, 10);
 
-  // 顯示時間在分數下方
+  // 顯示時間在分數下方（剩10秒內才變紅）
+  if (timeLeft <= 10) {
+    fill("#d62828");
+  } else {
+    fill("#0077b6");
+  }
   textSize(28);
   text("剩餘時間：" + timeLeft + " 秒", 10, 50);
 
