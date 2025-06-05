@@ -102,17 +102,7 @@ function draw() {
     textSize(32);
     text("分數：" + score, width / 2, height / 2);
 
-    // 再玩一次按鈕
-    let btnW = 180;
-    let btnH = 50;
-    let btnX = width / 2 - btnW / 2;
-    let btnY = height / 2 + 40;
-    stroke("#00b4d8");
-    strokeWeight(4);
-    fill("#90e0ef");
-    rect(btnX, btnY, btnW, btnH, 20);
 
-    noStroke();
     fill(0);
     textSize(28);
     textAlign(CENTER, CENTER);
