@@ -18,21 +18,30 @@ function preload() {
 }
 
 function mousePressed() {
-  if (gameOver) {
-    // 重設遊戲
-    stars = [];
-    for (let i = 0; i < 8; i++) {
-      let r = random(15, 35);
-      let x = random(r, width - r);
-      let y = random(r, height - r);
-      stars.push({ x, y, r, grabbed: false, collected: false });
+  if (gameOver && window.restartBtn) {
+    // 檢查滑鼠是否在再玩一次按鈕區域
+    if (
+      mouseX > window.restartBtn.x &&
+      mouseX < window.restartBtn.x + window.restartBtn.w &&
+      mouseY > window.restartBtn.y &&
+      mouseY < window.restartBtn.y + window.restartBtn.h
+    ) {
+      // 重設遊戲
+      stars = [];
+      for (let i = 0; i < 8; i++) {
+        let r = random(15, 35);
+        let x = random(r, width - r);
+        let y = random(r, height - r);
+        stars.push({ x, y, r, grabbed: false, collected: false });
+      }
+      score = 0;
+      timeLeft = 20;
+      gameOver = false;
+      grabbedStar = null;
+      lastSecond = millis();
+      finishedEarly = false;
+      window.restartBtn = null;
     }
-    score = 0;
-    timeLeft = 20; // 重設為20秒
-    gameOver = false;
-    grabbedStar = null;
-    lastSecond = millis();
-    finishedEarly = false; // 重設
   } else {
     console.log(hands);
   }
